@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Master | Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        h1 span {
+            color: #ffcc00;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 15px 0 30px;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background-color: #ffcc00;
+            color: #000;
+        }
+
+        .btn-register {
+            background-color: #00c6ff;
+            color: #000;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.4);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1><span>Quiz</span> Master</h1>
+
+    <p>
+        Test your knowledge, attempt quizzes,  
+        track your scores, and improve every day.
+        <br><br>
+        Teachers can create quizzes.  
+        Students can take quizzes and view results.
+    </p>
+
+    <div class="buttons">
+        <button class="btn btn-login" onclick="goLogin()">Login</button>
+        <button class="btn btn-register" onclick="goRegister()">Register</button>
+    </div>
+
+    <footer>
+        © 2025 Quiz Master | Online Quiz Platform
+    </footer>
+</div>
+
+<script>
+    function goLogin() {
+        // Change this later to Flask route: /login
+        window.location.href = "login.html";
+    }
+
+    function goRegister() {
+        // Change this later to Flask route: /register
+        window.location.href = "register.html";
+    }
+</script>
+
+</body>
+</html>
