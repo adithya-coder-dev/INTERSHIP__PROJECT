@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz App | Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-container {
+            background: #ffffff;
+            width: 400px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2a5298;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 10px;
+            background: #2a5298;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-btn:hover {
+            background: #1e3c72;
+        }
+
+        .message {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .error { color: red; }
+        .success { color: green; }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-link a {
+            color: #2a5298;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <h2>Create Account</h2>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p class="message {{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- FLASK SIGNUP FORM -->
+    <form method="POST" action="{{ url_for('signup') }}">
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" name="username" required>
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <div class="input-group">
+            <label>Role</label>
+            <select name="role" required>
+                <option value="student">Student</option>
+                <option value="staff">Staff</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Department</label>
+            <input type="text" name="department" required>
+        </div>
+
+        <!-- Student only -->
+        <div class="input-group">
+            <label>Enrollment Year (Students only)</label>
+            <input type="number" name="enrollment_year">
+        </div>
+
+        <button type="submit" class="register-btn">Register</button>
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+</div>
+
+</body>
+</html>
