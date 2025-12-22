@@ -1,147 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz App | Register</title>
+    <title>Register</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            height: 100vh;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .register-container {
-            background: #ffffff;
+        body { background: #f2f2f2; font-family: Arial; }
+        .box {
             width: 400px;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin: 80px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2a5298;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .input-group input,
-        .input-group select {
+        input, select, button {
             width: 100%;
             padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            margin: 8px 0;
         }
-
-        .register-btn {
-            width: 100%;
-            padding: 10px;
-            background: #2a5298;
-            border: none;
+        button {
+            background: #4CAF50;
             color: white;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
+            border: none;
         }
-
-        .register-btn:hover {
-            background: #1e3c72;
-        }
-
-        .message {
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .error { color: red; }
-        .success { color: green; }
-
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .login-link a {
-            color: #2a5298;
-            font-weight: bold;
-            text-decoration: none;
-        }
+        button:hover { background: #388E3C; }
+        .msg { color: red; text-align: center; }
     </style>
+
+    <script>
+        function validateRegister() {
+            const pw = document.getElementById("password").value;
+            const cpw = document.getElementById("confirm").value;
+
+            if (pw !== cpw) {
+                alert("Passwords do not match!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 
-<div class="register-container">
-    <h2>Create Account</h2>
+<div class="box">
+    <h2>Register</h2>
 
-    <!-- FLASH MESSAGES -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-            <p class="message {{ category }}">{{ message }}</p>
-        {% endfor %}
+      {% for category, msg in messages %}
+        <div class="msg">{{ msg }}</div>
+      {% endfor %}
     {% endwith %}
 
-    <!-- FLASK SIGNUP FORM -->
-    <form method="POST" action="{{ url_for('signup') }}">
-        <div class="input-group">
-            <label>Username</label>
-            <input type="text" name="username" required>
-        </div>
+    <form method="POST" onsubmit="return validateRegister()">
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="student">Student</option>
+            <option value="staff">Staff</option>
+        </select>
 
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" name="email" required>
-        </div>
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="password" id="confirm" name="confirm_password" placeholder="Confirm Password" required>
 
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" name="password" required>
-        </div>
-
-        <div class="input-group">
-            <label>Role</label>
-            <select name="role" required>
-                <option value="student">Student</option>
-                <option value="staff">Staff</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>Department</label>
-            <input type="text" name="department" required>
-        </div>
-
-        <!-- Student only -->
-        <div class="input-group">
-            <label>Enrollment Year (Students only)</label>
-            <input type="number" name="enrollment_year">
-        </div>
-
-        <button type="submit" class="register-btn">Register</button>
+        <button type="submit">Register</button>
     </form>
 
-    <div class="login-link">
-        Already have an account?
-        <a href="{{ url_for('login') }}">Login</a>
-    </div>
+    <p>Already registered? <a href="{{ url_for('login') }}">Login</a></p>
 </div>
 
 </body>

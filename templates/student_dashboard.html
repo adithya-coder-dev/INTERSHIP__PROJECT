@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #FFF3E0; text-align: center; }
+        .box {
+            margin-top: 100px;
+            background: white;
+            padding: 30px;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: crimson;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>Student Dashboard</h1>
+    <p>Attempt quizzes and view results</p>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+</body>
+</html>

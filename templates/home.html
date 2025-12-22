@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Master App</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(120deg, #4CAF50, #2196F3);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .card {
+            background: white;
+            color: black;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            width: 350px;
+        }
+        a {
+            display: block;
+            margin: 15px 0;
+            padding: 12px;
+            background: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover { background: #1976D2; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Quiz Master App</h1>
+    <p>Learn • Play • Improve</p>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('register') }}">Register</a>
+</div>
+
+</body>
+</html>
