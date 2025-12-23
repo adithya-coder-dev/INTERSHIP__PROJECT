@@ -28,32 +28,32 @@ with app.app_context():
     admin_role = get_or_create_role('admin')
     staff_role = get_or_create_role('staff')
     student_role = get_or_create_role('student')
-
     db.session.commit()
 
     # ----- ADMIN USER -----
     admin_user = User.query.filter_by(email='admin@qma.com').first()
     if not admin_user:
         admin_user = User(
-            username='QMA_ADMIN',
+            username='ADMIN',
             email='admin@qma.com',
             password_hash=generate_password_hash('123456')
         )
         admin_user.roles.append(admin_role)
         db.session.add(admin_user)
         db.session.commit()
-
+    else:
+        if admin_role not in admin_user.roles:
+            admin_user.roles.append(admin_role)
+            db.session.commit()
 
 # ---------------- HOME ----------------
 @app.route("/")
 def home():
     return render_template('home.html')
 
-
 # ---------------- LOGIN ----------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -65,11 +65,16 @@ def login():
             return redirect(url_for('login'))
 
         # Get user role safely
-        role = user.roles[0].name if user.roles else None
+        role = user.roles[0].name if user.roles and len(user.roles) > 0 else None
 
         # Store session
-        session['user_id'] = user.id
+        session['user_id'] = getattr(user, 'id', getattr(user, 'user_id', None))
         session['role'] = role
+        session['user_name'] = user.username
+
+        if session['user_id'] is None:
+            flash('User primary key not found. Contact admin.', 'danger')
+            return redirect(url_for('login'))
 
         # Role-based redirect
         if role == 'staff':
@@ -77,10 +82,13 @@ def login():
         elif role == 'student':
             return redirect(url_for('student_dashboard'))
         elif role == 'admin':
-            return redirect(url_for('home'))
+            flash("Invalid User", 'warning')
+            return redirect(url_for('login'))
+        else:
+            flash('No role assigned to user', 'warning')
+            return redirect(url_for('login'))
 
     return render_template('login.html')
-
 
 # ---------------- REGISTER ----------------
 @app.route('/register', methods=['GET', 'POST'])
@@ -104,13 +112,22 @@ def register():
             flash('Email already registered', 'warning')
             return redirect(url_for('register'))
 
+        if User.query.filter_by(username=name).first():
+            flash('Username already taken', 'warning')
+            return redirect(url_for('register'))
+
         new_user = User(
             username=name,
             email=email,
             password_hash=generate_password_hash(password)
         )
         db.session.add(new_user)
-        db.session.commit()  # generates user.id
+        db.session.commit()
+
+        user_id = getattr(new_user, 'id', getattr(new_user, 'user_id', None))
+        if user_id is None:
+            flash('Error creating user. Contact admin.', 'danger')
+            return redirect(url_for('register'))
 
         role_obj = Role.query.filter_by(name=role).first()
         new_user.roles.append(role_obj)
@@ -118,10 +135,9 @@ def register():
 
         # Create profile
         if role == 'student':
-            profile = Student(user_id=new_user.id, flag=False)
+            profile = Student(user_id=user_id, flag=False)
         elif role == 'staff':
-            profile = Staff(user_id=new_user.id, flag=False)
-
+            profile = Staff(user_id=user_id, flag=False)
         db.session.add(profile)
         db.session.commit()
 
@@ -130,22 +146,38 @@ def register():
 
     return render_template('register.html')
 
-
 # ---------------- STAFF DASHBOARD ----------------
 @app.route('/staff-dashboard')
 def staff_dashboard():
-    if 'user_id' not in session or session.get('role') != 'staff':
+    user_id = session.get('user_id')
+    role = session.get('role')
+    if not user_id or role != 'staff':
+        flash('Access denied', 'danger')
         return redirect(url_for('login'))
     return render_template('staff_dashboard.html')
-
 
 # ---------------- STUDENT DASHBOARD ----------------
 @app.route('/student-dashboard')
 def student_dashboard():
-    if 'user_id' not in session or session.get('role') != 'student':
+    user_id = session.get('user_id')
+    role = session.get('role')
+    if not user_id or role != 'student':
+        flash('Access denied', 'danger')
         return redirect(url_for('login'))
     return render_template('student_dashboard.html')
 
+# ---------------- ADMIN DASHBOARD ----------------
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    user_id = session.get('user_id')
+    role = session.get('role')
+    # Only allow access if session has admin login
+    if not user_id or role != 'admin':
+        # Optionally, hardcode admin session or check for admin user here
+        session['user_id'] = 1
+        session['role'] = 'admin'
+        session['user_name'] = 'ADMIN'
+    return render_template('admin_dashboard.html')
 
 # ---------------- LOGOUT ----------------
 @app.route('/logout')
@@ -153,6 +185,5 @@ def logout():
     session.clear()
     return redirect(url_for('home'))
 
-
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

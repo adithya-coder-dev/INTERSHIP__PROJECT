@@ -1,70 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register</title>
-    <style>
-        body { background: #f2f2f2; font-family: Arial; }
-        .box {
-            width: 400px;
-            margin: 80px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-        }
-        button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-        }
-        button:hover { background: #388E3C; }
-        .msg { color: red; text-align: center; }
-    </style>
+<meta charset="UTF-8">
+<title>Register | Quiz Master</title>
 
-    <script>
-        function validateRegister() {
-            const pw = document.getElementById("password").value;
-            const cpw = document.getElementById("confirm").value;
+<style>
+:root {
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --border: #30363d;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+    --text-white: #f0f6fc;
+    --green: #238636;
+    --green-hover: #2ea043;
+    --red: #da3633;
+}
 
-            if (pw !== cpw) {
-                alert("Passwords do not match!");
-                return false;
-            }
-            return true;
-        }
-    </script>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    height: 64px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-white);
+}
+
+.nav-right {
+    margin-left: auto;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-right a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 6px;
+    line-height: 1.2;
+}
+
+.nav-login {
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    background: transparent;
+}
+
+.nav-login:hover {
+    border-color: var(--text-main);
+    background: rgba(240,246,252,0.05);
+}
+
+.nav-register {
+    background: var(--green);
+    color: #fff;
+    border: 1px solid var(--green);
+}
+
+.nav-register:hover {
+    background: var(--green-hover);
+}
+
+/* ================= REGISTER CARD ================= */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    padding: 0 20px;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 400px;
+    padding: 32px;
+}
+
+.card h2 {
+    color: var(--text-white);
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+/* ================= FORM ================= */
+form select,
+form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #0d1117;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+form select:focus,
+form input:focus {
+    outline: none;
+    border-color: var(--green);
+}
+
+form input::placeholder {
+    color: var(--text-muted);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    background: var(--green);
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--green-hover);
+}
+
+.msg {
+    background: rgba(218, 54, 51, 0.1);
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.login-link {
+    margin-top: 18px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.login-link a {
+    color: var(--green);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<script>
+function validateRegister() {
+    const pw = document.getElementById("password").value;
+    const cpw = document.getElementById("confirm").value;
+
+    if (pw !== cpw) {
+        alert("Passwords do not match!");
+        return false;
+    }
+    return true;
+}
+</script>
 </head>
+
 <body>
 
-<div class="box">
-    <h2>Register</h2>
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">Quiz Master</div>
+    <div class="nav-right">
+        <a href="{{ url_for('login') }}" class="nav-login">Login</a>
+        <a href="{{ url_for('register') }}" class="nav-register">Sign up</a>
+    </div>
+</div>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% for category, msg in messages %}
-        <div class="msg">{{ msg }}</div>
-      {% endfor %}
-    {% endwith %}
+<!-- REGISTER -->
+<div class="container">
+    <div class="card">
+        <h2>Create Account</h2>
+        <p>Join Quiz Master and start testing your knowledge</p>
 
-    <form method="POST" onsubmit="return validateRegister()">
-        <select name="role" required>
-            <option value="">Select Role</option>
-            <option value="student">Student</option>
-            <option value="staff">Staff</option>
-        </select>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, msg in messages %}
+            <div class="msg">{{ msg }}</div>
+          {% endfor %}
+        {% endwith %}
 
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <input type="password" id="confirm" name="confirm_password" placeholder="Confirm Password" required>
+        <form method="POST" action="{{ url_for('register') }}" onsubmit="return validateRegister()">
+            <select name="role" required>
+                <option value="">Select Role</option>
+                <option value="student">Student</option>
+                <option value="staff">Staff</option>
+            </select>
 
-        <button type="submit">Register</button>
-    </form>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirm" name="confirm_password" placeholder="Confirm Password" required>
 
-    <p>Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="login-link">
+            Already registered? <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
 </div>
 
 </body>

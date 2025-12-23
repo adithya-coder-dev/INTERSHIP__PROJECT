@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Staff Dashboard | Quiz Master</title>
+<title>Admin Dashboard | Quiz Master</title>
 <style>
 :root {
     --bg-main: #0d1117;
@@ -45,6 +45,8 @@ body {
 
 .nav-right {
     margin-left: auto;
+    display: flex;
+    gap: 14px;
 }
 
 .nav-right a {
@@ -52,12 +54,16 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-main);
+}
+
+.nav-logout {
     background: var(--green);
+    color: #fff;
     padding: 7px 14px;
     border-radius: 6px;
 }
 
-.nav-right a:hover {
+.nav-logout:hover {
     background: var(--green-hover);
 }
 
@@ -79,7 +85,7 @@ body {
     font-size: 16px;
 }
 
-/* STAFF ACTION CARDS */
+/* ADMIN ACTION CARDS */
 .sections {
     max-width: 1100px;
     margin: 40px auto;
@@ -94,8 +100,12 @@ body {
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 24px;
-    transition: border 0.2s ease, transform 0.2s ease;
-    cursor: default; /* No onclick links */
+    cursor: default;
+}
+
+.card:hover {
+    border-color: var(--green);
+    transform: translateY(-3px);
 }
 
 .card h3 {
@@ -170,48 +180,48 @@ body {
 
 <!-- NAVBAR -->
 <div class="navbar">
-    <div class="logo">Quiz Master - Staff</div>
+    <div class="logo">Quiz Master - Admin</div>
     <div class="nav-right">
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('logout') }}" class="nav-logout">Logout</a>
     </div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
     <h1>Welcome, {{ session['user_name'] }}</h1>
-    <p>Manage quizzes, monitor student performance, and review results efficiently.</p>
+    <p>Manage users, roles, quizzes, and monitor overall system performance.</p>
 </div>
 
-<!-- STAFF ACTION CARDS -->
+<!-- ADMIN ACTION CARDS -->
 <div class="sections">
     <div class="card">
-        <h3>Create Quiz</h3>
-        <p>Create new quizzes with questions and set time limits.</p>
-        <span>Go →</span>
+        <h3>Manage Users</h3>
+        <p>Add, edit, or delete students and staff.</p>
+        <span>Coming Soon</span>
     </div>
 
     <div class="card">
-        <h3>Manage Quizzes</h3>
-        <p>Edit, delete, or update existing quizzes.</p>
-        <span>Go →</span>
+        <h3>Manage Roles</h3>
+        <p>Create or assign roles to users.</p>
+        <span>Coming Soon</span>
     </div>
 
     <div class="card">
-        <h3>View Results</h3>
-        <p>Track student performance and generate reports.</p>
-        <span>Go →</span>
+        <h3>View Quizzes</h3>
+        <p>Monitor all quizzes and review their details.</p>
+        <span>Coming Soon</span>
     </div>
 </div>
 
 <!-- STATS -->
 <div class="stats">
     <div class="stat">
-        <h2>10+</h2>
-        <span>Active Quizzes</span>
+        <h2>100+</h2>
+        <span>Total Users</span>
     </div>
     <div class="stat">
         <h2>50+</h2>
-        <span>Students</span>
+        <span>Active Quizzes</span>
     </div>
     <div class="stat">
         <h2>Instant</h2>
@@ -221,7 +231,7 @@ body {
 
 <!-- FOOTER -->
 <div class="footer">
-    © 2025 Quiz Master · Staff Panel · Manage quizzes efficiently
+    © 2025 Quiz Master · Admin Panel · Full system management
 </div>
 
 </body>
