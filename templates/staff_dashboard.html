@@ -13,216 +13,339 @@
     --text-white: #f0f6fc;
     --green: #238636;
     --green-hover: #2ea043;
+    --accent: #58a6ff;
+    --transition: 0.3s ease;
 }
+* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+body { display:flex; min-height:100vh; background:var(--bg-main); color:var(--text-main); }
+.sidebar { width:300px; background:var(--bg-card); border-right:1px solid var(--border); display:flex; flex-direction:column; padding:20px; overflow-y:auto; }
+.sidebar h2 { color:var(--text-white); font-size:22px; text-align:center; margin-bottom:20px; }
+.menu-item { display:flex; justify-content:space-between; align-items:center; padding:12px 15px; cursor:pointer; border-radius:8px; margin-bottom:5px; transition:background var(--transition); }
+.menu-item:hover { background: var(--border); }
+.sub-menu { padding-left:15px; display:none; flex-direction:column; }
+.menu-item.active + .sub-menu { display:flex; flex-direction:column; }
+.button { background:var(--green); color:var(--text-white); padding:6px 12px; border:none; border-radius:6px; cursor:pointer; font-size:13px; margin:3px 0; transition:background var(--transition); }
+.button:hover { background: var(--green-hover); }
+.main-content { flex:1; padding:40px; overflow-y:auto; }
+.main-content h1 { font-size:28px; color:var(--text-white); margin-bottom:20px; }
+.card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:25px; margin-bottom:20px; transition:transform var(--transition); }
+.card:hover { transform:translateY(-3px); }
+input, select, textarea { width:100%; padding:10px; margin-bottom:12px; border-radius:6px; border:1px solid var(--border); background:var(--bg-main); color:var(--text-white); }
+.footer { padding:20px; text-align:center; font-size:13px; color:var(--text-muted); border-top:1px solid var(--border); }
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; justify-content:center; align-items:center; z-index:100; }
+.modal-content { background:var(--bg-card); padding:25px; border-radius:12px; width:600px; max-width:95%; position:relative; }
+.modal-content h2 { margin-bottom:15px; }
+.modal-close { position:absolute; top:10px; right:15px; cursor:pointer; color:var(--text-white); font-weight:bold; font-size:20px; }
+.modal .button { width:auto; margin-top:10px; }
+table { width:100%; border-collapse:collapse; margin-top:15px; }
+th, td { border:1px solid var(--border); padding:8px; text-align:left; color:var(--text-main); }
+th { background:var(--bg-card); color:var(--text-white); }
+tr:nth-child(even){ background:#1e2228; }
+tr:hover { background:#2a2e35; }
+.draggable { cursor:grab; }
+.drag-over { background: rgba(35,134,54,0.3); border:1px dashed var(--green); }
+@media(max-width:900px){ .sidebar{ width:220px; } .modal-content{ width:90%; } }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-}
-
-body {
-    background: var(--bg-main);
-    color: var(--text-main);
-    min-height: 100vh;
-}
-
-/* NAVBAR */
-.navbar {
-    height: 64px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-}
-
-.logo {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-white);
-}
-
-.nav-right {
-    margin-left: auto;
-}
-
-.nav-right a {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-    background: var(--green);
-    padding: 7px 14px;
-    border-radius: 6px;
-}
-
-.nav-right a:hover {
-    background: var(--green-hover);
-}
-
-/* HERO */
-.hero {
-    max-width: 1100px;
-    margin: 50px auto 30px;
-    padding: 0 40px;
-}
-
-.hero h1 {
-    font-size: 36px;
-    color: var(--text-white);
-    margin-bottom: 10px;
-}
-
-.hero p {
-    color: var(--text-muted);
-    font-size: 16px;
-}
-
-/* STAFF ACTION CARDS */
-.sections {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-}
-
-.card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    transition: border 0.2s ease, transform 0.2s ease;
-    cursor: default; /* No onclick links */
-}
-
-.card h3 {
-    color: var(--text-white);
-    font-size: 18px;
-    margin-bottom: 8px;
-}
-
-.card p {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
-
-.card span {
-    font-size: 13px;
-    color: var(--green);
-    font-weight: 600;
-}
-
-/* STATS */
-.stats {
-    max-width: 1100px;
-    margin: 50px auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.stat {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 22px;
-    text-align: center;
-}
-
-.stat h2 {
-    color: var(--text-white);
-    font-size: 26px;
-    margin-bottom: 6px;
-}
-
-.stat span {
-    font-size: 13px;
-    color: var(--text-muted);
-}
-
-/* FOOTER */
-.footer {
-    border-top: 1px solid var(--border);
-    padding: 28px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-muted);
-}
-
-@media (max-width: 900px) {
-    .sections,
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .hero h1 {
-        font-size: 28px;
-    }
+/* Add this inside your existing <style> block */
+#questions-container {
+    max-height: 400px; /* adjust height as needed */
+    overflow-y: auto;
+    padding-right: 5px; /* optional, prevents content from hiding behind scrollbar */
 }
 </style>
+
 </head>
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="logo">Quiz Master - Staff</div>
-    <div class="nav-right">
-        <a href="{{ url_for('logout') }}">Logout</a>
+<div class="sidebar">
+    <h2>Quiz Master</h2>
+
+    <div class="menu-item" onclick="toggleMenu(this)">Subjects</div>
+    <div class="sub-menu" id="subject-menu">
+        <button class="button" onclick="openModal('subject')">+ Add Subject</button>
+        <div id="subject-list"></div>
+    </div>
+
+    <div class="menu-item" onclick="toggleMenu(this)">Chapters</div>
+    <div class="sub-menu" id="chapter-menu">
+        <button class="button" onclick="openModal('chapterCreate')">+ Add Chapter</button>
+        <div id="chapter-list"></div>
+    </div>
+
+    <div class="menu-item" onclick="toggleMenu(this)">Quizzes</div>
+    <div class="sub-menu" id="quiz-menu">
+        <button class="button" onclick="openModal('quizCreate')">+ Create Quiz</button>
+        <div id="quiz-list"></div>
+    </div>
+
+    <div class="menu-item" onclick="toggleMenu(this)">Results</div>
+    <div class="sub-menu">
+        <button class="button" onclick="viewResults()">View All Results</button>
     </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
+<div class="main-content" id="main-content">
     <h1>Welcome, {{ session['user_name'] }}</h1>
-    <p>Manage quizzes, monitor student performance, and review results efficiently.</p>
-</div>
-
-<!-- STAFF ACTION CARDS -->
-<div class="sections">
-    <div class="card">
-        <h3>Create Quiz</h3>
-        <p>Create new quizzes with questions and set time limits.</p>
-        <span>Go →</span>
-    </div>
-
-    <div class="card">
-        <h3>Manage Quizzes</h3>
-        <p>Edit, delete, or update existing quizzes.</p>
-        <span>Go →</span>
-    </div>
-
-    <div class="card">
-        <h3>View Results</h3>
-        <p>Track student performance and generate reports.</p>
-        <span>Go →</span>
+    <div id="content-area">
+        <div class="card"><p>Select an option from the menu to manage subjects, chapters, quizzes, questions, or view results.</p></div>
     </div>
 </div>
 
-<!-- STATS -->
-<div class="stats">
-    <div class="stat">
-        <h2>10+</h2>
-        <span>Active Quizzes</span>
-    </div>
-    <div class="stat">
-        <h2>50+</h2>
-        <span>Students</span>
-    </div>
-    <div class="stat">
-        <h2>Instant</h2>
-        <span>Results</span>
+<div class="footer">© 2025 Quiz Master · Staff Panel · Modern Dashboard</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content" id="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div id="modal-body"></div>
     </div>
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-    © 2025 Quiz Master · Staff Panel · Manage quizzes efficiently
-</div>
+<script>
+// ----------------- API -----------------
+async function api(url, method='GET', data=null){
+    return await fetch(url,{method,headers:{'Content-Type':'application/json'},body:data?JSON.stringify(data):null});
+}
 
+// ----------------- Menu Toggle -----------------
+function toggleMenu(el){ el.classList.toggle('active'); const submenu = el.nextElementSibling; submenu.style.display = submenu.style.display==='flex'?'none':'flex'; }
+
+// ----------------- Render Subjects/Chapters/Quizzes -----------------
+async function renderSubjects(){
+    const res = await api('/api/subjects');
+    const subjects = await res.json();
+    const subjectList = document.getElementById('subject-list'); subjectList.innerHTML='';
+    const chapterList = document.getElementById('chapter-list'); chapterList.innerHTML='';
+    const quizList = document.getElementById('quiz-list'); quizList.innerHTML='';
+
+    subjects.forEach(sub=>{
+        // Subjects menu
+        const div = document.createElement('div'); div.classList.add('menu-item'); div.textContent=sub.name;
+        const editBtn = document.createElement('button'); editBtn.classList.add('button'); editBtn.textContent='Edit'; editBtn.onclick=()=>openModal('subjectEdit',sub);
+        const delBtn = document.createElement('button'); delBtn.classList.add('button'); delBtn.textContent='Delete'; delBtn.onclick=()=>deleteSubject(sub.id);
+        div.appendChild(editBtn); div.appendChild(delBtn); subjectList.appendChild(div);
+
+        // Chapters menu
+        sub.chapters.forEach(chap=>{
+            const chapDiv = document.createElement('div'); chapDiv.classList.add('menu-item'); chapDiv.textContent=`${chap.name} (${sub.name})`;
+            const editChap = document.createElement('button'); editChap.classList.add('button'); editChap.textContent='Edit'; editChap.onclick=()=>openModal('chapterEdit',chap,sub);
+            const delChap = document.createElement('button'); delChap.classList.add('button'); delChap.textContent='Delete'; delChap.onclick=()=>deleteChapter(chap.id);
+            chapDiv.appendChild(editChap); chapDiv.appendChild(delChap);
+            chapterList.appendChild(chapDiv);
+        });
+
+        // Quizzes menu
+        sub.chapters.forEach(chap=>{
+            chap.quizzes.forEach(quiz=>{
+                const quizDiv = document.createElement('div'); quizDiv.classList.add('menu-item'); quizDiv.textContent=`${quiz.name} (${sub.name} > ${chap.name})`;
+                quizDiv.onclick = () => openModal('quizManage', quiz, chap, sub);
+                quizList.appendChild(quizDiv);
+            });
+        });
+    });
+}
+
+// ----------------- Modal -----------------
+function openModal(type,data=null,parent=null,grandparent=null){
+    const modal = document.getElementById('modal'); 
+    const body = document.getElementById('modal-body'); 
+    modal.style.display='flex'; 
+    body.innerHTML='';
+
+    if(type==='subject'){ 
+        body.innerHTML=`<h2>Create Subject</h2><input type="text" id="subject-name" placeholder="Subject Name"><button class="button" onclick="addSubject()">Create</button>`; 
+    }
+    else if(type==='subjectEdit'){ 
+        body.innerHTML=`<h2>Edit Subject</h2><input type="text" id="subject-name" value="${data.name}"><button class="button" onclick="editSubject(${data.id})">Save</button>`; 
+    }
+    else if(type==='chapterCreate'){
+        body.innerHTML=`<h2>Create Chapter</h2>
+            <input type="text" id="chapter-name" placeholder="Chapter Name">
+            <select id="subject-select"></select>
+            <button class="button" onclick="addChapter()">Create</button>`;
+        loadSubjectsForSelect('subject-select');
+    }
+    else if(type==='chapterEdit'){
+        body.innerHTML=`<h2>Edit Chapter</h2>
+            <input type="text" id="chapter-name" value="${data.name}">
+            <button class="button" onclick="editChapter(${data.id})">Save</button>`;
+    }
+    else if(type==='quizCreate'){
+        body.innerHTML=`<h2>Create Quiz</h2>
+            <input type="text" id="quiz-name" placeholder="Quiz Name">
+            <select id="subject-select"></select>
+            <select id="chapter-select"></select>
+            <button class="button" onclick="addQuiz()">Create</button>`;
+        loadSubjectsForQuizSelect();
+    }
+    else if(type==='quizManage'){
+        body.innerHTML=`<h2>Manage Quiz: ${data.name}</h2>
+            <button class="button" onclick="openQuestionModal(${data.id})">+ Add Questions</button>
+            <div id="quiz-questions"></div>`;
+        renderQuestions(data);
+    }
+}
+
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+
+// ----------------- Close modal on outside click -----------------
+const modal = document.getElementById('modal');
+modal.addEventListener('click', function(e){
+    if(e.target === modal){
+        closeModal();
+    }
+});
+
+// ----------------- Load Subjects -----------------
+async function loadSubjectsForSelect(selectId){
+    const res = await api('/api/subjects');
+    const subjects = await res.json();
+    const sel = document.getElementById(selectId); sel.innerHTML='';
+    subjects.forEach(s=>{ sel.innerHTML+=`<option value="${s.id}">${s.name}</option>`; });
+}
+
+async function loadSubjectsForQuizSelect(){
+    const res = await api('/api/subjects'); const subjects = await res.json();
+    const subjSel = document.getElementById('subject-select'); subjSel.innerHTML='';
+    subjects.forEach(s=>{ subjSel.innerHTML+=`<option value="${s.id}">${s.name}</option>`; });
+    subjSel.onchange = async ()=>{
+        const chapSel = document.getElementById('chapter-select'); chapSel.innerHTML='';
+        const selected = subjects.find(s=>s.id==subjSel.value);
+        selected.chapters.forEach(c=>{ chapSel.innerHTML+=`<option value="${c.id}">${c.name}</option>`; });
+    };
+    subjSel.dispatchEvent(new Event('change'));
+}
+
+// ----------------- CRUD -----------------
+async function addSubject(){ const name=document.getElementById('subject-name').value; await api('/api/subjects','POST',{name}); closeModal(); renderSubjects(); }
+async function editSubject(id){ const name=document.getElementById('subject-name').value; await api(`/api/subjects/${id}`,'PUT',{name}); closeModal(); renderSubjects(); }
+async function deleteSubject(id){ if(confirm('Delete subject?')){ await api(`/api/subjects/${id}`,'DELETE'); renderSubjects(); } }
+
+async function addChapter(){ const name=document.getElementById('chapter-name').value; const subject_id=document.getElementById('subject-select').value; await api('/api/chapters','POST',{name,subject_id}); closeModal(); renderSubjects(); }
+async function editChapter(id){ const name=document.getElementById('chapter-name').value; await api(`/api/chapters/${id}`,'PUT',{name}); closeModal(); renderSubjects(); }
+async function deleteChapter(id){ if(confirm('Delete chapter?')){ await api(`/api/chapters/${id}`,'DELETE'); renderSubjects(); } }
+
+async function addQuiz(){ const name=document.getElementById('quiz-name').value; const chapter_id=document.getElementById('chapter-select').value; await api('/api/quizzes','POST',{name,chapter_id}); closeModal(); renderSubjects(); }
+
+// ----------------- Questions (Multiple) -----------------
+async function renderQuestions(quiz){
+    const container = document.getElementById('quiz-questions');
+    container.innerHTML='';
+    const res = await api(`/api/quizzes/${quiz.id}/questions`);
+    const questions = await res.json();
+    questions.forEach(q=>{
+        const qDiv = document.createElement('div'); qDiv.classList.add('card');
+        let optionsHTML = '';
+        q.options.forEach((opt,i)=>{ optionsHTML += `<div>${i+1}. ${opt}${i+1===q.answer?' (Correct)':''}</div>`; });
+        qDiv.innerHTML = `<p><strong>Q:</strong> ${q.text}</p>${optionsHTML}
+            <button class="button" onclick="editQuestion(${q.id},${quiz.id})">Edit</button>
+            <button class="button" onclick="deleteQuestion(${q.id},${quiz.id})">Delete</button>`;
+        container.appendChild(qDiv);
+    });
+}
+
+function openQuestionModal(quizId){
+    const modal = document.getElementById('modal'); 
+    const body = document.getElementById('modal-body'); 
+    modal.style.display='flex';
+    body.innerHTML=`
+        <h2>Add Questions</h2>
+        <div id="questions-container"></div>
+        <button class="button" onclick="addQuestionBlock()">+ Add Question</button>
+        <button class="button" onclick="submitAllQuestions(${quizId})">Submit All Questions</button>
+    `;
+    addQuestionBlock();
+}
+
+function addQuestionBlock(){
+    const container = document.getElementById('questions-container');
+    const idx = container.children.length + 1;
+    const qDiv = document.createElement('div');
+    qDiv.classList.add('card');
+    qDiv.style.marginBottom='10px';
+    qDiv.innerHTML=`
+        <h4>Question ${idx}</h4>
+        <textarea placeholder="Enter question text" class="question-text"></textarea>
+        <input type="text" placeholder="Option 1" class="option1">
+        <input type="text" placeholder="Option 2" class="option2">
+        <input type="text" placeholder="Option 3" class="option3">
+        <input type="text" placeholder="Option 4" class="option4">
+        <select class="correct-answer">
+            <option value="">Select Correct Option</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+        </select>
+        <button class="button" onclick="removeQuestionBlock(this)">Remove</button>
+    `;
+    container.appendChild(qDiv);
+}
+
+function removeQuestionBlock(btn){ btn.parentElement.remove(); }
+
+async function submitAllQuestions(quizId){
+    const container = document.getElementById('questions-container');
+    const blocks = container.children;
+    const allQuestions = [];
+
+    for(let block of blocks){
+        const text = block.querySelector('.question-text').value.trim();
+        const options = [
+            block.querySelector('.option1').value.trim(),
+            block.querySelector('.option2').value.trim(),
+            block.querySelector('.option3').value.trim(),
+            block.querySelector('.option4').value.trim()
+        ];
+        const answer = parseInt(block.querySelector('.correct-answer').value);
+
+        if(!text || options.some(o=>!o) || !answer){
+            alert('Fill all fields in all questions');
+            return;
+        }
+        allQuestions.push({text, options, answer, quiz_id:quizId});
+    }
+
+    await api('/api/questions/bulk','POST',{questions:allQuestions});
+    closeModal();
+    renderSubjects();
+}
+
+// Edit/Delete existing single question
+async function editQuestion(qId, quizId){
+    const res = await api(`/api/questions/${qId}`);
+    const q = await res.json();
+    const body = document.getElementById('modal-body');
+    const modal = document.getElementById('modal');
+    body.innerHTML=`
+        <h2>Edit Question</h2>
+        <textarea id="question-text">${q.text}</textarea>
+        <input type="text" id="option1" value="${q.options[0]}" placeholder="Option 1">
+        <input type="text" id="option2" value="${q.options[1]}" placeholder="Option 2">
+        <input type="text" id="option3" value="${q.options[2]}" placeholder="Option 3">
+        <input type="text" id="option4" value="${q.options[3]}" placeholder="Option 4">
+        <select id="correct-answer">
+            <option value="">Select Correct Option</option>
+            <option value="1" ${q.answer===1?'selected':''}>Option 1</option>
+            <option value="2" ${q.answer===2?'selected':''}>Option 2</option>
+            <option value="3" ${q.answer===3?'selected':''}>Option 3</option>
+            <option value="4" ${q.answer===4?'selected':''}>Option 4</option>
+        </select>
+        <button class="button" onclick="saveQuestion(${qId},${quizId})">Save</button>
+    `;
+    modal.style.display='flex';
+}
+async function saveQuestion(qId, quizId){
+    const text=document.getElementById('question-text').value;
+    const options=[1,2,3,4].map(i=>document.getElementById(`option${i}`).value);
+    const answer=parseInt(document.getElementById('correct-answer').value);
+    if(!text||options.some(o=>!o)||!answer){ alert('Fill all fields'); return; }
+    await api(`/api/questions/${qId}`, 'PUT', {text, options, answer});
+    closeModal(); renderSubjects();
+}
+async function deleteQuestion(qId, quizId){ if(confirm('Delete this question?')){ await api(`/api/questions/${qId}`, 'DELETE'); renderSubjects(); } }
+
+// ----------------- Init -----------------
+renderSubjects();
+</script>
 </body>
 </html>
