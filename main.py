@@ -183,21 +183,6 @@ def delete_subject(id):
     db.session.commit()
     return jsonify({'status':'ok'})
 
-@app.route('/api/subjects/<int:id>', methods=['GET'])
-def subject_detail(id):
-    sub = Subject.query.get_or_404(id)
-    return jsonify({
-        'id': sub.id,
-        'name': sub.name,
-        'chapters': [
-            {
-                'id': c.id,
-                'name': c.name,
-                'quizzes': [{'id': q.id, 'name': q.name} for q in c.quizzes]
-            } for c in sub.chapters
-        ]
-    })
-
 
 # ---- Chapters ----
 @app.route('/api/chapters', methods=['POST'])
@@ -221,14 +206,6 @@ def delete_chapter(id):
     db.session.delete(chap)
     db.session.commit()
     return jsonify({'status':'ok'})
-@app.route('/api/chapters/<int:id>', methods=['GET'])
-def chapter_detail(id):
-    chap = Chapter.query.get_or_404(id)
-    return jsonify({
-        'id': chap.id,
-        'name': chap.name,
-        'quizzes': [{'id': q.id, 'name': q.name} for q in chap.quizzes]
-    })
 
 # ---- Quizzes ----
 @app.route('/api/quizzes', methods=['POST'])
@@ -252,7 +229,6 @@ def delete_quiz(id):
     db.session.delete(quiz)
     db.session.commit()
     return jsonify({'status':'ok'})
-
 
 # ---- Questions ----
 @app.route('/api/questions', methods=['POST'])
