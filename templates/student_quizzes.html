@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Available Quizzes</title>
+<style>
+body{
+    background:#0d1117;
+    color:#c9d1d9;
+    font-family:Arial;
+}
+.card{
+    background:#161b22;
+    border:1px solid #30363d;
+    padding:20px;
+    margin:20px auto;
+    width:60%;
+    border-radius:8px;
+}
+button{
+    background:#238636;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    cursor:pointer;
+}
+button:hover{opacity:0.9;}
+</style>
+</head>
+<body>
+
+<h2 align="center">Available Quizzes</h2>
+
+{% for quiz in quizzes %}
+<div class="card">
+    <p><b>Quiz ID:</b> {{ quiz.id }}</p>
+    <p><b>Date:</b> {{ quiz.date }}</p>
+    <p><b>Duration:</b> {{ quiz.duration }} minutes</p>
+
+    <a href="{{ url_for('start_quiz', quiz_id=quiz.id) }}">
+        <button>Start Quiz</button>
+    </a>
+</div>
+{% else %}
+<p align="center">No quizzes available</p>
+{% endfor %}
+
+</body>
+</html>

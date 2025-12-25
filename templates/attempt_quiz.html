@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Attempt Quiz</title>
+
+<style>
+body{
+    background:#0d1117;
+    color:#c9d1d9;
+    font-family:Arial;
+}
+.card{
+    background:#161b22;
+    border:1px solid #30363d;
+    padding:20px;
+    margin:20px auto;
+    width:70%;
+    border-radius:8px;
+}
+button{
+    background:#238636;
+    color:white;
+    border:none;
+    padding:10px 25px;
+    cursor:pointer;
+}
+#timer{
+    text-align:center;
+    font-size:20px;
+    color:#f85149;
+    margin:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h2 align="center">Quiz Attempt</h2>
+
+<div id="timer">
+    Time Left: <span id="time">{{ duration * 60 }}</span> seconds
+</div>
+
+<form method="POST" action="{{ url_for('submit_quiz') }}" id="quizForm">
+
+{% for q in questions %}
+<div class="card">
+    <p><b>Q{{ loop.index }}. {{ q.text }}</b></p>
+
+    {% for opt in q.options %}
+    <label>
+        <input type="radio" name="question_{{ q.id }}" value="{{ loop.index }}">
+        {{ opt.text }}
+    </label><br>
+    {% endfor %}
+</div>
+{% endfor %}
+
+<div align="center">
+    <button type="submit">Submit Quiz</button>
+</div>
+
+</form>
+
+<script>
+let timeLeft = parseInt(document.getElementById("time").innerText);
+const timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+        clearInterval(timer);
+        alert("Time is up! Quiz will be submitted.");
+        document.getElementById("quizForm").submit();
+    }
+}, 1000);
+</script>
+
+</body>
+</html>

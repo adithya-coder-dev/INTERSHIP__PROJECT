@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Result</title>
+<style>
+body{
+    background:#0d1117;
+    color:#c9d1d9;
+    font-family:Arial;
+}
+.card{
+    background:#161b22;
+    border:1px solid #30363d;
+    padding:30px;
+    margin:100px auto;
+    width:40%;
+    border-radius:8px;
+    text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Quiz Completed</h2>
+    <p><b>Score:</b> {{ score }} / {{ total }}</p>
+    <p><b>Time Taken:</b> {{ time_taken }} seconds</p>
+
+    <a href="{{ url_for('student_dashboard') }}">
+        <button style="padding:10px 20px;">Back to Dashboard</button>
+    </a>
+</div>
+
+</body>
+</html>
